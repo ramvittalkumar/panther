@@ -6,7 +6,7 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 
 contract PantherLottery is VRFConsumerBase {
     address public owner;
-    address payable[] public participants;
+    address payable[] public players;
     uint public lotteryId;
     mapping (uint => address payable) public lotteryHistory;
 
@@ -33,6 +33,7 @@ contract PantherLottery is VRFConsumerBase {
 
     function fulfillRandomness(bytes32 requestId, uint randomness) internal override {
         randomResult = randomness;
+        chosenWinner();
     }
 
     function getWinnerByLottery(uint lottery) public view returns (address payable) {
@@ -43,19 +44,28 @@ contract PantherLottery is VRFConsumerBase {
         return address(this).balance;
     }
 
-    function getParticipants() public view returns (address payable[] memory) {
-        return participants;
+    function getPlayers() public view returns (address payable[] memory) {
+        return players;
     }
 
     function enter() public payable {
-        require(msg.value > .01 ether);
+        //require(msg.value > .01 ether);
 
-        // address of participants entering lottery
-        participants.push(payable(msg.sender));
+        // address of player entering lottery
+        players.push(payable(msg.sender));
     }
 
     function pickWinner() public onlyowner {
         getRandomNumber();
+    }
+
+    function chosenWinner() public {
+        uint index = randomResult % players.length;
+        lotteryHistory[lotteryId] = players[index];
+        lotteryId++;
+        
+        // reset the state of the contract
+        players = new address payable[](0);
     }
 
     modifier onlyowner() {
