@@ -31,6 +31,11 @@ Technologies
 - Testnet - Mumbai Polygon , Opensea
 - Tools - Truffle, Remix, Metamask, Discord Bot (Collab.land)
 
+## Developers
+Kaushik (kaushik.mrl@gmail.com)
+Ram Vittal (ramvittal@gmail.com)
+Sajith Mohideen (sajith.wanderer@gmail.com)
+
 ## Related source code repo
 
 - Dapp - https://github.com/ramvittalkumar/pantherdapp
